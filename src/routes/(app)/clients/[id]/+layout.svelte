@@ -4,11 +4,11 @@
 
   let { data, children }: { data: LayoutData; children: any } = $props();
 
-  const tabs = [
+  const tabs = $derived([
     { href: `/clients/${data.client.id}/posts`, label: 'Posts' },
     { href: `/clients/${data.client.id}/metrics`, label: 'Métricas' },
     { href: `/clients/${data.client.id}/settings`, label: 'Configurações' }
-  ];
+  ]);
 </script>
 
 <div class="flex flex-col h-full">
