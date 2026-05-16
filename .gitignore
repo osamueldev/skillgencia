@@ -4,5 +4,18 @@ build/
 pb_data/
 _workspaces/
 .env
+.env.local
+.env.*.local
 *.log
 dist/
+
+# Claude Code local config
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
