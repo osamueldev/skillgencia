@@ -1,0 +1,8 @@
+node_modules/
+.svelte-kit/
+build/
+pb_data/
+_workspaces/
+.env
+*.log
+dist/
