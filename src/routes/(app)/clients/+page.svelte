@@ -40,7 +40,7 @@
             method="POST"
             action="?/delete"
             class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"
-            onsubmit="return confirm('Deletar cliente {client.name}? Esta ação não pode ser desfeita.')"
+            onsubmit={(e) => { if (!confirm(`Deletar cliente ${client.name}? Esta ação não pode ser desfeita.`)) e.preventDefault(); }}
           >
             <input type="hidden" name="client_id" value={client.id} />
             <button

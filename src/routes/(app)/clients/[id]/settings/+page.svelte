@@ -57,7 +57,7 @@
             </div>
             <div class="flex items-center gap-2">
               <span class="text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">Conectado</span>
-              <form method="POST" action="?/disconnect" onsubmit="return confirm('Remover conexão com {conn.page_name || platformLabel[conn.platform]}?')">
+              <form method="POST" action="?/disconnect" onsubmit={(e) => { if (!confirm(`Remover conexão com ${conn.page_name || platformLabel[conn.platform]}?`)) e.preventDefault(); }}>
                 <input type="hidden" name="connection_id" value={conn.id} />
                 <button
                   type="submit"
