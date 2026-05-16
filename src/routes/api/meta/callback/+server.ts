@@ -6,7 +6,9 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ url, locals }) => {
   if (!locals.user) error(401, 'Unauthorized');
   const code = url.searchParams.get('code');
-  const clientId = url.searchParams.get('state');
+  const rawState = url.searchParams.get('state') ?? '';
+  // state format: "clientId:type" (type = facebook | instagram | both)
+  const [clientId, connectionType = 'both'] = rawState.split(':');
 
   if (!code || !clientId) error(400, 'Parâmetros inválidos');
 
@@ -19,17 +21,19 @@ export const GET: RequestHandler = async ({ url, locals }) => {
         ? new Date(Date.now() + expires_in * 1000).toISOString()
         : null;
 
-      await locals.pb.collection('meta_connections').create({
-        client: clientId,
-        platform: 'facebook',
-        access_token: encrypt(page.access_token),
-        page_id: page.id,
-        account_id: page.id,
-        page_name: page.name,
-        expires_at: expiresAt
-      });
+      if (connectionType !== 'instagram') {
+        await locals.pb.collection('meta_connections').create({
+          client: clientId,
+          platform: 'facebook',
+          access_token: encrypt(page.access_token),
+          page_id: page.id,
+          account_id: page.id,
+          page_name: page.name,
+          expires_at: expiresAt
+        });
+      }
 
-      if (page.instagram_business_account?.id) {
+      if (page.instagram_business_account?.id && connectionType !== 'facebook') {
         await locals.pb.collection('meta_connections').create({
           client: clientId,
           platform: 'instagram',

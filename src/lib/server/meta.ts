@@ -9,10 +9,18 @@ const SCOPES = [
   'instagram_content_publish'
 ].join(',');
 
-export function buildOAuthUrl(clientId: string): string {
+export function buildOAuthUrl(clientId: string, type: 'facebook' | 'instagram' | 'both' = 'both'): string {
   const redirectUri = encodeURIComponent(META_REDIRECT_URI);
-  const state = encodeURIComponent(clientId);
-  return `https://www.facebook.com/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(SCOPES)}&state=${state}&response_type=code`;
+  // state encodes clientId and connection type
+  const state = encodeURIComponent(`${clientId}:${type}`);
+
+  const scopes = type === 'instagram'
+    ? ['instagram_basic', 'instagram_content_publish', 'pages_show_list'].join(',')
+    : type === 'facebook'
+    ? ['pages_show_list', 'pages_read_engagement', 'pages_manage_posts'].join(',')
+    : SCOPES;
+
+  return `https://www.facebook.com/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(scopes)}&state=${state}&response_type=code`;
 }
 
 export async function exchangeCodeForToken(code: string): Promise<{

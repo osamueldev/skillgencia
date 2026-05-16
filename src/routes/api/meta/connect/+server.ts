@@ -5,6 +5,7 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ url, locals }) => {
   if (!locals.user) error(401, 'Unauthorized');
   const clientId = url.searchParams.get('client_id');
+  const type = (url.searchParams.get('type') ?? 'both') as 'facebook' | 'instagram' | 'both';
   if (!clientId) redirect(302, '/clients');
-  redirect(302, buildOAuthUrl(clientId!));
+  redirect(302, buildOAuthUrl(clientId!, type));
 };

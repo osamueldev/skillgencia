@@ -24,12 +24,20 @@
   <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
     <div class="flex items-center justify-between mb-4">
       <h3 class="font-semibold text-gray-900">Conexões Meta</h3>
-      <a
-        href="/api/meta/connect?client_id={clientId}"
-        class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition-colors"
-      >
-        + Conectar Conta
-      </a>
+      <div class="flex gap-2">
+        <a
+          href="/api/meta/connect?client_id={clientId}&type=instagram"
+          class="text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium px-4 py-2 rounded-lg transition-all"
+        >
+          + Instagram
+        </a>
+        <a
+          href="/api/meta/connect?client_id={clientId}&type=facebook"
+          class="text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors"
+        >
+          + Facebook
+        </a>
+      </div>
     </div>
 
     {#if data.connections.length === 0}
