@@ -8,6 +8,10 @@
   const connected = $derived($page.url.searchParams.get('connected') === 'true');
 
   const platformLabel: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook' };
+  const platformColor: Record<string, string> = {
+    instagram: 'bg-gradient-to-br from-purple-500 to-pink-500',
+    facebook: 'bg-blue-600'
+  };
 </script>
 
 <svelte:head><title>Configurações — skillgência</title></svelte:head>
@@ -18,6 +22,35 @@
   {#if connected}
     <div class="mb-6 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
       Conta Meta conectada com sucesso!
+    </div>
+  {/if}
+
+  {#if data.selectSessionId && data.selectAccounts.length > 0}
+    <div class="bg-white rounded-2xl border border-indigo-200 p-6 mb-6">
+      <h3 class="font-semibold text-gray-900 mb-1">Escolha qual conta conectar</h3>
+      <p class="text-sm text-gray-500 mb-4">Encontramos {data.selectAccounts.length} conta(s) disponíveis. Selecione a que pertence a este cliente.</p>
+      <div class="space-y-2">
+        {#each data.selectAccounts as acc, i}
+          <form method="POST" action="?/select_account">
+            <input type="hidden" name="session_id" value={data.selectSessionId} />
+            <input type="hidden" name="account_index" value={i} />
+            <button type="submit" class="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-indigo-50 hover:border-indigo-300 border border-gray-200 rounded-xl text-left transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white text-xs font-bold {platformColor[acc.type] ?? 'bg-gray-400'}">
+                  {acc.type === 'instagram' ? 'IG' : 'FB'}
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">{acc.name}</p>
+                  <p class="text-xs text-gray-500">{platformLabel[acc.type]} · ID: {acc.account_id}</p>
+                </div>
+              </div>
+              <span class="text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
+                Conectar esta →
+              </span>
+            </button>
+          </form>
+        {/each}
+      </div>
     </div>
   {/if}
 
