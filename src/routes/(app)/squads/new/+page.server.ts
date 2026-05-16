@@ -25,9 +25,9 @@ export const actions: Actions = {
         config: {},
         created_by: locals.user?.id
       });
-      redirect(302, '/squads');
     } catch (e: any) {
       return fail(400, { error: e?.message ?? 'Erro ao criar squad' });
     }
+    redirect(302, '/squads');
   }
 };

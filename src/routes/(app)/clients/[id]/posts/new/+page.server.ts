@@ -37,9 +37,9 @@ export const actions: Actions = {
       }
 
       await locals.pb.collection('posts').create(formData);
-      redirect(302, `/clients/${params.id}/posts`);
     } catch (e: any) {
       return fail(400, { error: e?.message ?? 'Erro ao criar post' });
     }
+    redirect(302, `/clients/${params.id}/posts`);
   }
 };

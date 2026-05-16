@@ -17,6 +17,7 @@ export const actions: Actions = {
       return fail(400, { error: 'Slug deve conter apenas letras minúsculas, números e hífens' });
     }
 
+    let clientId: string;
     try {
       const client = await locals.pb.collection('clients').create({
         name,
@@ -25,9 +26,10 @@ export const actions: Actions = {
         brand_fonts: { heading: 'Inter', body: 'Inter' },
         created_by: locals.user?.id
       });
-      redirect(302, `/clients/${client.id}/posts`);
+      clientId = client.id;
     } catch (e: any) {
       return fail(400, { error: e?.message ?? 'Erro ao criar cliente' });
     }
+    redirect(302, `/clients/${clientId}/posts`);
   }
 };
