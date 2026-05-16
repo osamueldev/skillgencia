@@ -55,7 +55,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     }
 
     if (accounts.length === 0) {
-      error(400, 'Nenhuma conta encontrada para este tipo de conexão.');
+      redirect(302, `/clients/${clientId}/settings?error=no_accounts`);
     }
 
     // If only 1 account, save directly without selection step

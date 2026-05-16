@@ -6,6 +6,7 @@
 
   const clientId = $derived($page.params.id);
   const connected = $derived($page.url.searchParams.get('connected') === 'true');
+  const noAccounts = $derived($page.url.searchParams.get('error') === 'no_accounts');
 
   const platformLabel: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook' };
   const platformColor: Record<string, string> = {
@@ -22,6 +23,19 @@
   {#if connected}
     <div class="mb-6 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
       Conta Meta conectada com sucesso!
+    </div>
+  {/if}
+
+  {#if noAccounts}
+    <div class="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+      <p class="text-sm font-semibold text-amber-800 mb-1">Nenhuma conta encontrada</p>
+      <p class="text-sm text-amber-700 mb-3">O Instagram profissional precisa estar vinculado a uma <strong>Página do Facebook</strong> para aparecer aqui. Contas vinculadas apenas ao perfil pessoal não são suportadas pela Meta API.</p>
+      <p class="text-xs text-amber-600 font-medium">Como resolver:</p>
+      <ol class="text-xs text-amber-700 mt-1 ml-4 list-decimal space-y-1">
+        <li>No Facebook, crie ou acesse uma Página</li>
+        <li>No Instagram → Configurações → Conta vinculada → vincule à Página do Facebook</li>
+        <li>Tente conectar novamente</li>
+      </ol>
     </div>
   {/if}
 
