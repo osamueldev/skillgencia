@@ -21,7 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       event.locals.pb.authStore.save(token, JSON.parse(model));
       if (event.locals.pb.authStore.isValid) {
         await event.locals.pb.collection('users').authRefresh();
-        event.locals.user = event.locals.pb.authStore.model;
+        event.locals.user = event.locals.pb.authStore.record;
       }
     } catch {
       event.locals.pb.authStore.clear();
