@@ -1,4 +1,17 @@
 services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    environment:
+      - ORIGIN=http://localhost:3000
+    volumes:
+      - ./_workspaces:/app/_workspaces
+    depends_on:
+      - pocketbase
+    restart: unless-stopped
+
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     ports:
