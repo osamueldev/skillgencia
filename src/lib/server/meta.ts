@@ -1,3 +1,5 @@
+import { META_APP_ID, META_APP_SECRET, META_REDIRECT_URI } from '$env/static/private';
+
 const GRAPH_BASE = 'https://graph.facebook.com/v19.0';
 const SCOPES = [
   'pages_show_list',
@@ -7,17 +9,10 @@ const SCOPES = [
   'instagram_content_publish'
 ].join(',');
 
-function requireEnv(key: string): string {
-  const val = process.env[key];
-  if (!val) throw new Error(`Missing env var: ${key}`);
-  return val;
-}
-
 export function buildOAuthUrl(clientId: string): string {
-  const appId = requireEnv('META_APP_ID');
-  const redirectUri = encodeURIComponent(requireEnv('META_REDIRECT_URI'));
+  const redirectUri = encodeURIComponent(META_REDIRECT_URI);
   const state = encodeURIComponent(clientId);
-  return `https://www.facebook.com/dialog/oauth?client_id=${appId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(SCOPES)}&state=${state}&response_type=code`;
+  return `https://www.facebook.com/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(SCOPES)}&state=${state}&response_type=code`;
 }
 
 export async function exchangeCodeForToken(code: string): Promise<{
@@ -26,9 +21,9 @@ export async function exchangeCodeForToken(code: string): Promise<{
   expires_in?: number;
 }> {
   const params = new URLSearchParams({
-    client_id: requireEnv('META_APP_ID'),
-    client_secret: requireEnv('META_APP_SECRET'),
-    redirect_uri: requireEnv('META_REDIRECT_URI'),
+    client_id: META_APP_ID,
+    client_secret: META_APP_SECRET,
+    redirect_uri: META_REDIRECT_URI,
     code
   });
   const res = await fetch(`${GRAPH_BASE}/oauth/access_token`, {

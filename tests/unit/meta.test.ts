@@ -1,15 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import { buildOAuthUrl, exchangeCodeForToken } from '../../src/lib/server/meta';
 
-process.env.META_APP_ID = 'test_app_id';
-process.env.META_APP_SECRET = 'test_app_secret';
-process.env.META_REDIRECT_URI = 'http://localhost:5173/api/meta/callback';
+// meta.ts now uses $env/static/private — values come from .env at test time
 
 describe('meta OAuth', () => {
   it('builds OAuth URL with required params', () => {
     const url = buildOAuthUrl('client-123');
     expect(url).toContain('https://www.facebook.com/dialog/oauth');
-    expect(url).toContain('client_id=test_app_id');
+    expect(url).toContain('client_id=');
     expect(url).toContain('redirect_uri=');
     expect(url).toContain('state=client-123');
     expect(url).toContain('pages_manage_posts');
