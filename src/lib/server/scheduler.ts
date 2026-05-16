@@ -7,7 +7,7 @@ export async function findDueScheduledPosts() {
   const pb = createPocketBase();
   const now = new Date().toISOString();
   const result = await pb.collection('posts').getList(1, 50, {
-    filter: pb.filter('status = {:s} && scheduled_at <= {:now}', { s: 'scheduled', now }),
+    filter: `status = "scheduled" && scheduled_at <= "${now}"`,
     requestKey: null
   });
   return result.items;
@@ -20,7 +20,7 @@ async function processPost(postId: string): Promise<void> {
   if (!post || post.status !== 'scheduled') return;
 
   const connections = await pb.collection('meta_connections').getList(1, 1, {
-    filter: pb.filter('client = {:c} && platform = {:p}', { c: post.client, p: post.platform })
+    filter: `client = "${post.client}" && platform = "${post.platform}"`
   });
 
   if (connections.totalItems === 0) {
