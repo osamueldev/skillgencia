@@ -30,7 +30,7 @@
               <p class="text-sm text-gray-500 mt-1">{squad.description}</p>
             {/if}
           </div>
-          <span class="text-xs text-gray-400">{new Date(squad.created).toLocaleDateString('pt-BR')}</span>
+          <span class="text-xs text-gray-400">{squad.created ? new Date(squad.created).toLocaleDateString('pt-BR') : ''}</span>
         </div>
       {/each}
     </div>
