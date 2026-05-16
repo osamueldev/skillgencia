@@ -18,13 +18,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   if (token && model) {
     try {
-      event.locals.pb.authStore.save(token, JSON.parse(model));
-      if (event.locals.pb.authStore.isValid) {
-        await event.locals.pb.collection('users').authRefresh();
-        event.locals.user = event.locals.pb.authStore.record;
-      }
+      const parsedModel = JSON.parse(model);
+      event.locals.pb.authStore.save(token, parsedModel);
+      event.locals.user = parsedModel;
     } catch {
-      event.locals.pb.authStore.clear();
       event.cookies.delete('pb_token', { path: '/' });
       event.cookies.delete('pb_model', { path: '/' });
     }
