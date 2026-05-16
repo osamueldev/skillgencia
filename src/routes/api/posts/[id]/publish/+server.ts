@@ -16,7 +16,7 @@ export const POST: RequestHandler = async ({ params, locals, request }) => {
   if (post.status === 'published') error(400, 'Post já publicado');
 
   const connections = await locals.pb.collection('meta_connections').getList(1, 1, {
-    filter: `client = "${post.client}" && platform = "${post.platform}"`
+    filter: locals.pb.filter('client = {:c} && platform = {:p}', { c: post.client, p: post.platform })
   });
 
   if (connections.totalItems === 0) {

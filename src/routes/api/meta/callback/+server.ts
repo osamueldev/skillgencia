@@ -4,6 +4,7 @@ import { encrypt } from '$lib/server/crypto';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url, locals }) => {
+  if (!locals.user) error(401, 'Unauthorized');
   const code = url.searchParams.get('code');
   const clientId = url.searchParams.get('state');
 

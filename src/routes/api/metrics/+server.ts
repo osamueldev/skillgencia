@@ -17,7 +17,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   // Check cache
   const cached = await locals.pb.collection('metrics_cache').getList(1, 1, {
-    filter: `client = "${clientId}" && platform = "${platform}" && period_start = "${since}" && period_end = "${until}"`,
+    filter: locals.pb.filter('client = {:cid} && platform = {:p} && period_start = {:s} && period_end = {:u}', { cid: clientId, p: platform, s: since, u: until }),
     requestKey: null
   });
 
@@ -31,7 +31,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   // Fetch fresh data
   const connections = await locals.pb.collection('meta_connections').getList(1, 1, {
-    filter: `client = "${clientId}" && platform = "${platform}"`
+    filter: locals.pb.filter('client = {:cid} && platform = {:p}', { cid: clientId, p: platform })
   });
 
   if (connections.totalItems === 0) error(400, `No ${platform} connection for this client`);

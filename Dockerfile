@@ -1,7 +1,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Build-time env vars required by SvelteKit $env/static/private
+# NOTE: These ARGs are placeholder values required for SvelteKit's static analysis at build time.
+# They are NOT the real production values — real secrets are injected at runtime via env_file in docker-compose.
+# Do NOT pass real ENCRYPTION_KEY or META_APP_SECRET as --build-arg when building production images.
 ARG POCKETBASE_URL=http://pocketbase:8090
 ARG PUBLIC_POCKETBASE_URL=http://pocketbase:8090
 ARG META_APP_ID=placeholder
