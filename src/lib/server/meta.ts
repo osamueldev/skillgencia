@@ -41,10 +41,10 @@ export async function getPages(accessToken: string): Promise<Array<{
   id: string;
   name: string;
   access_token: string;
-  instagram_business_account?: { id: string };
+  instagram_business_account?: { id: string; username?: string };
 }>> {
   const res = await fetch(
-    `${GRAPH_BASE}/me/accounts?fields=id,name,access_token,instagram_business_account&access_token=${accessToken}`
+    `${GRAPH_BASE}/me/accounts?fields=id,name,access_token,instagram_business_account{id,username}&access_token=${accessToken}`
   );
   if (!res.ok) throw new Error('Failed to fetch pages');
   const data = await res.json();

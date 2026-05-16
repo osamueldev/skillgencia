@@ -25,6 +25,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
         access_token: encrypt(page.access_token),
         page_id: page.id,
         account_id: page.id,
+        page_name: page.name,
         expires_at: expiresAt
       });
 
@@ -35,6 +36,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
           access_token: encrypt(page.access_token),
           page_id: page.id,
           account_id: page.instagram_business_account.id,
+          page_name: page.instagram_business_account.username ?? page.name,
           expires_at: expiresAt
         });
       }

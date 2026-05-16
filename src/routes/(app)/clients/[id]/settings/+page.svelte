@@ -38,9 +38,14 @@
       <div class="space-y-3">
         {#each data.connections as conn}
           <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-            <div>
-              <p class="text-sm font-medium text-gray-900">{platformLabel[conn.platform]}</p>
-              <p class="text-xs text-gray-500">Page ID: {conn.page_id}</p>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold {conn.platform === 'instagram' ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-blue-600'}">
+                {conn.platform === 'instagram' ? 'IG' : 'FB'}
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">{conn.page_name || platformLabel[conn.platform]}</p>
+                <p class="text-xs text-gray-500">{platformLabel[conn.platform]} · ID: {conn.account_id}</p>
+              </div>
             </div>
             <span class="text-xs font-medium text-green-700 bg-green-50 px-2 py-1 rounded-full">Conectado</span>
           </div>
