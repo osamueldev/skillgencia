@@ -21,12 +21,12 @@ export const actions: Actions = {
       await locals.pb.collection('squads').create({
         name,
         description,
-        client: client || null,
-        config: {},
-        created_by: locals.user?.id
+        client: client || '',
+        created_by: locals.user?.id ?? ''
       });
     } catch (e: any) {
-      return fail(400, { error: e?.message ?? 'Erro ao criar squad' });
+      const msg = e?.data ? JSON.stringify(e.data) : (e?.message ?? 'Erro ao criar squad');
+      return fail(400, { error: msg });
     }
     redirect(302, '/squads');
   }
