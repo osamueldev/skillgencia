@@ -6,12 +6,12 @@ export const load: PageServerLoad = async ({ locals }) => {
       locals.pb.collection('clients').getList(1, 50, { sort: 'name', requestKey: null }),
       locals.pb.collection('posts').getList(1, 10, {
         filter: 'status = "scheduled"',
-        sort: 'scheduled_at',
+        sort: '-id',
         requestKey: null
       }),
       locals.pb.collection('posts').getList(1, 5, {
         filter: 'status = "published" || status = "failed"',
-        sort: '-updated',
+        sort: '-id',
         requestKey: null
       })
     ]);
